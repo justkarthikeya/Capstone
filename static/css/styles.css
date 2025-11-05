@@ -1,0 +1,63 @@
+/* Red-themed styles for Telco Churn frontend */
+:root{
+  --primary:#C73E1D; /* strong red */
+  --primary-dark:#9a2d14;
+  --accent:#A23B72; /* magenta-ish */
+  --muted:#f7f3f3;
+  --card-bg:#ffffff;
+  --text:#222;
+}
+
+*{box-sizing:border-box}
+body{font-family:Inter, system-ui, -apple-system, Arial, sans-serif;color:var(--text);background:linear-gradient(180deg,#fffafa 0%, #fff 100%);margin:0;padding:0}
+.container{max-width:1100px;margin:1.5rem auto;padding:0 1rem}
+.site-header{background:linear-gradient(90deg,var(--primary) 0%, var(--accent) 100%);color:white;padding:1.25rem 0;border-radius:8px}
+.site-header h1{margin:0;font-size:1.6rem}
+.site-header .subtitle{margin:0.25rem 0 0;font-size:0.95rem;opacity:0.95}
+
+.layout{display:grid;grid-template-columns:1.6fr 1fr;gap:1rem;margin-top:1rem}
+.card{background:var(--card-bg);padding:1rem;border-radius:10px;box-shadow:0 6px 20px rgba(199,62,29,0.06);border:1px solid rgba(0,0,0,0.03);position:relative}
+
+.form-card{min-height:480px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem}
+.field{display:flex;flex-direction:column}
+.field label{font-weight:600;margin-bottom:0.35rem;color:var(--primary-dark)}
+.field input, .field select, .field textarea{padding:0.45rem;border-radius:6px;border:1px solid #e6dede;background: #fff}
+.field-error{color:#b00020;font-size:0.85rem;margin-top:0.25rem}
+
+.form-actions{display:flex;gap:0.75rem;align-items:center;margin-top:0.85rem}
+.btn{padding:0.55rem 0.9rem;border-radius:8px;border:none;cursor:pointer;font-weight:600}
+.btn-primary{background:var(--primary);color:white}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-ghost{background:transparent;border:1px solid rgba(0,0,0,0.08)}
+
+.result-card{min-height:480px;display:flex;flex-direction:column;gap:1rem}
+.result-header{display:flex;align-items:center;justify-content:space-between}
+.prob-pill{background:linear-gradient(90deg,var(--accent),var(--primary));color:white;padding:0.45rem 0.7rem;border-radius:999px;font-weight:700}
+.risk{font-weight:800;color:var(--primary-dark)}
+.shap-img{width:100%;height:auto;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
+
+.empty-state{display:flex;align-items:center;justify-content:center;flex:1;color:#6b6b6b}
+
+.site-footer{margin:1.25rem 0;text-align:center;color:#666;font-size:0.9rem}
+
+/* Responsive */
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;}
+  .grid{grid-template-columns:1fr}
+}
+
+/* Progress bar styles */
+.progress-wrapper{margin-top:0.75rem}
+.progress-bar-bg{background:#f2eaea;border-radius:999px;height:18px;overflow:hidden;border:1px solid rgba(0,0,0,0.03)}
+.progress-bar-fill{height:100%;width:0%;transition:width 0.6s ease}
+.progress-label{margin-top:0.45rem;font-weight:600}
+
+/* Spinner overlay for predicting state */
+/* Spinner overlay hidden by default; add .active to show */
+.spinner-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.8);display:none;align-items:center;justify-content:center;flex-direction:column;border-radius:10px;pointer-events:none}
+.spinner-overlay.active{display:flex;pointer-events:auto}
+.spinner{width:48px;height:48px;border-radius:50%;border:6px solid #f3f3f3;border-top-color:var(--primary);animation:spin 1s linear infinite}
+.spinner-label{margin-top:0.6rem;font-weight:700;color:var(--primary-dark)}
+@keyframes spin{to{transform:rotate(360deg)}}
+

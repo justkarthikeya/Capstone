@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Telco Churn - Predict</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1>📡 Telco Churn - Predict</h1>
+        <p class="subtitle">Enter customer data and get a churn probability with local SHAP explanation</p>
+      </div>
+    </header>
+
+    <main class="container layout">
+      <section class="card form-card">
+        <form id="predict-form" method="post">
+          {% csrf_token %}
+          <div class="grid">
+            {% for field in form %}
+              <div class="field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                  <div class="field-help">{{ field.help_text }}</div>
+                {% endif %}
+                {% if field.errors %}
+                  <div class="field-error">{{ field.errors }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="form-actions">
+            <button id="submit-btn" class="btn btn-primary" type="submit">Predict Churn</button>
+            <button class="btn btn-ghost" type="reset">Reset</button>
+          </div>
+        </form>
+        <div id="spinner-overlay" class="spinner-overlay">
+          <div class="spinner"></div>
+          <div class="spinner-label">Predicting…</div>
+        </div>
+      </section>
+
+      <aside class="card result-card">
+        {% if result %}
+          <div class="result-header">
+            <h2>Prediction</h2>
+            <div class="prob-pill">{{ result.prob_text }}</div>
+          </div>
+          <div class="result-body">
+            <p class="result-line"><strong>Risk:</strong> <span class="risk">{{ result.risk }}</span></p>
+            <p class="result-line"><strong>Action:</strong> {{ result.action }}</p>
+
+            {% if result.prob is defined %}
+              <div class="progress-wrapper">
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: {{ result.prob_pct }}%; background: linear-gradient(90deg, #A23B72 0%, #C73E1D 100%);"></div>
+                </div>
+                <div class="progress-label">Probability: {{ result.prob_text }}</div>
+              </div>
+            {% endif %}
+
+            {% if shap_img %}
+              <h3>Local SHAP Explanation</h3>
+              <img class="shap-img" src="data:image/png;base64,{{ shap_img }}" alt="SHAP plot" />
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="empty-state">
+            <p>Fill the form and click <strong>Predict Churn</strong> to see results here.</p>
+          </div>
+        {% endif %}
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">Built with ❤️ — Churn Predictor</div>
+    </footer>
+    <script>
+      // Simple spinner + submit disabling — add .active class to show overlay
+      (function(){
+        const form = document.getElementById('predict-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const spinner = document.getElementById('spinner-overlay');
+        if (!form) return;
+        form.addEventListener('submit', function(e){
+          // show spinner and disable submit
+          if (submitBtn) submitBtn.disabled = true;
+          if (spinner) spinner.classList.add('active');
+        });
+      })();
+    </script>
+  </body>
+  </html>
