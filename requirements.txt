@@ -1,0 +1,10 @@
+gradio
+pandas
+numpy
+joblib
+shap
+matplotlib
+seaborn
+scikit-learn==1.6.1 # Match the version used when training the model
+category_encoders
+lightgbm
